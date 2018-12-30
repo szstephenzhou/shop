@@ -1,7 +1,13 @@
 package com.zjh.zshop.backend.controller;
 
+import com.zjh.zshop.dao.pojo.productType;
+import com.zjh.zshop.service.ProductTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * @Description: java类作用描述
@@ -14,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/backend/productType")
 public class productTypeController {
-    @RequestMapping("findAll")
-    public String findAll(){
-
+@Autowired
+private ProductTypeService productTypeService;
+    @RequestMapping("/findAll")
+    public String findAll(Model model){
+    List<productType> typeList=   productTypeService.findAll();
+    model.addAttribute("typeList",typeList);
         return "productTypeManager";
     }
 }
