@@ -1,4 +1,4 @@
-package com.zjh.zshop.dao.pojo;
+package com.zjh.zshop.pojo;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @Version: 1.0
  */
 // Serializable 实例化这个对象
-public class productType implements Serializable {
+public class ProductType implements Serializable {
 
     private Integer id;
     private  String name;

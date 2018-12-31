@@ -1,7 +1,7 @@
 package com.zjh.zshop.service.impl;
 
 import com.zjh.zshop.dao.ProductTypeDao;
-import com.zjh.zshop.dao.pojo.productType;
+import com.zjh.zshop.pojo.ProductType;
 import com.zjh.zshop.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     //    支持事务，配置为只读
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<productType> findAll() {
+    public List<ProductType> findAll() {
         return productTypeDao.selectAll();
     }
 }

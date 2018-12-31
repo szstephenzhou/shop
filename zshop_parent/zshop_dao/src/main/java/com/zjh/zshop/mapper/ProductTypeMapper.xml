@@ -14,7 +14,8 @@
     </sql>
     <select id="selectAll" resultType="ProductType">
         select
-        <include refid="productTypeColum"/>
+        <!--<include refid="productTypeColum"/>-->
+        *
         from t_product_type
     </select>
 </mapper>

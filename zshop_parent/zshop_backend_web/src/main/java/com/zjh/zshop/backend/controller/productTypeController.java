@@ -1,6 +1,6 @@
 package com.zjh.zshop.backend.controller;
 
-import com.zjh.zshop.dao.pojo.productType;
+import com.zjh.zshop.pojo.ProductType;
 import com.zjh.zshop.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class productTypeController {
 private ProductTypeService productTypeService;
     @RequestMapping("/findAll")
     public String findAll(Model model){
-    List<productType> typeList=   productTypeService.findAll();
+    List<ProductType> typeList=   productTypeService.findAll();
     model.addAttribute("typeList",typeList);
         return "productTypeManager";
     }

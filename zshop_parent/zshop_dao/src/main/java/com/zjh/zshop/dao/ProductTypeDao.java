@@ -1,6 +1,8 @@
 package com.zjh.zshop.dao;
 
-import com.zjh.zshop.dao.pojo.productType;
+
+
+import com.zjh.zshop.pojo.ProductType;
 
 import java.util.List;
 
@@ -13,6 +15,9 @@ import java.util.List;
  */
 public interface ProductTypeDao {
 
-    //    查找所有的商品类型
-    public List<productType> selectAll();
+    /**
+     * 查找所有的商品类型
+      * @return
+     */
+    public List<ProductType> selectAll();
 }
