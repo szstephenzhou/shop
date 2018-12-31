@@ -1,18 +1,52 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zh">
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>backend</title>
-    <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/bootstrap.css" />
-    <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/index.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
     <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
+    <%--分页插件--%>
+    <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
+
+    <script type="application/javascript">
+        $(function () {
+            $("#pagination").bootstrapPaginator({
+                //设置版本号
+                bootstrapMajorVersion: 3,
+                // 显示第几页
+                currentPage: ${pageInfo.pageNum},
+                // 总页数
+                totalPages: ${pageInfo.pageSize},
+
+
+            // //当单击操作按钮的时候, 执行该函数, 调用ajax渲染页面
+            pageUrl: function (type,page,current) {
+
+                    return "${pageContext.request.contextPath}/backend/productType/findAll?pageNum="+page;
+
+            },
+                itemText:function (type,page,current) {
+                    switch (type) {
+                        case "first":return "首页";
+                        case "prev":return "上一页";
+                        case "next":return "下一页";
+                        case "last":return "末页";
+                        case "page":return "page";
+                    }
+                }
+        });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -35,28 +69,28 @@
                 </tr>
                 </thead>
                 <tbody id="tb">
-                <tr>
-                    <td>1</td>
-                    <td>aaaa</td>
-                    <td>启用</td>
-                    <td class="text-center">
-                        <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
-                        <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
-                        <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>aaaa</td>
-                    <td>启用</td>
-                    <td class="text-center">
-                        <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
-                        <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
-                        <input type="button" class="btn btn-success btn-sm doProDisable" value="启用">
-                    </td>
-                </tr>
+
+                <c:forEach items="${pageInfo.list}" var="productTpye">
+                    <tr>
+                        <td>${productTpye.id}</td>
+                        <td>${productTpye.name}</td>
+                        <td>
+                            <c:if test="${productTpye.status==1}">启用</c:if>
+                            <c:if test="${productTpye.status==0}">禁用</c:if>
+                        </td>
+                        <td class="text-center">
+                            <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
+                            <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
+                            <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                        </td>
+                    </tr>
+                </c:forEach>
+
+
                 </tbody>
             </table>
+            <%--分页插件的实现 bootstrop-pagination--%>
+            <ul id="pagination"></ul>
         </div>
     </div>
 </div>

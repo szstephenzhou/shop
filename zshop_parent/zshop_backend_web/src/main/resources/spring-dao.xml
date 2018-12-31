@@ -18,15 +18,29 @@
 
 
 
-    <!--加载数据到sqlSssionFactory中并指定pojo类型-->
+    <!--加载数据到sqlSssionFactory中并指定pojo类型 配置数据源和映射文件地址-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:com/zjh/zshop/mapper/*.xml"/>
         <property name="typeAliasesPackage" value="com.zjh.zshop.pojo"/>
+
+        <!--配置分页插件 拦截器-->
+        <property name="plugins">
+            <list>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                <property name="properties">
+                    <props>
+                        <prop key="helperDialect">mysql</prop>
+                    </props>
+                </property>
+                </bean>
+            </list>
+
+        </property>
     </bean>
 
 
-
+<!--接口所在的包-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="basePackage" value="com.zjh.zshop.dao"/>
