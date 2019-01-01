@@ -11,11 +11,16 @@ public interface ProductTypeService {
      * 查找所有商品类型信息
      */
     public List<ProductType> findAll();
+
     /**
      * 添加商品类型信息
-     *  判断名称是否一致
+     * 判断名称是否一致
      */
-   public void add(String name) throws ProductTypeExistException;
+    public void add(String name) throws ProductTypeExistException;
 
-   public  ProductType findById(Integer id);
+    public ProductType findById(Integer id);
+
+    public void modifyName(Integer id, String name) throws ProductTypeExistException;
+
+    public void deleteById(Integer id)  ;
 }

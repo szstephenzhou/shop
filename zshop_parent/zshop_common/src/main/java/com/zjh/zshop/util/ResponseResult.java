@@ -44,7 +44,13 @@ public class ResponseResult {
     public static ResponseResult success(Object data) {
         return new ResponseResult(ResponseStatusConstant.RESPONSE_STATUS_SUCESS, "success", data);
     }
+    public static ResponseResult success( ) {
+        return new ResponseResult(ResponseStatusConstant.RESPONSE_STATUS_SUCESS, "success", null);
+    }
 
+    public static ResponseResult success(String msg ) {
+        return new ResponseResult(ResponseStatusConstant.RESPONSE_STATUS_SUCESS, msg, null);
+    }
     /**
      * 返回失败的模型
      *

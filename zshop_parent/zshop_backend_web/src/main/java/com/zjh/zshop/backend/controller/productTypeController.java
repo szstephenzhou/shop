@@ -41,33 +41,29 @@ public class productTypeController {
         }
         //设置分页
         PageHelper.startPage(pageNum, pageSize);
-//查询所有数据
+        //查询所有数据
         List<ProductType> typeList = productTypeService.findAll();
-//把查询的结构封装到PageInfo对象中
+        //把查询的结构封装到PageInfo对象中
         PageInfo<ProductType> pageInfo = new PageInfo<>(typeList);
-//把所有的结果接口分页封装到一起
+        //把所有的结果接口分页封装到一起
 
         System.out.println(pageInfo.getPageSize());
-
         model.addAttribute("pageInfo", pageInfo);
         return "productTypeManager";
     }
 
-    @RequestMapping("add")
+    @RequestMapping("/add")
     @ResponseBody
     public ResponseResult add(String name) {
-        ResponseResult result = new ResponseResult();
+
         try {
             productTypeService.add(name);
-            result.setStatus(ResponseStatusConstant.RESPONSE_STATUS_SUCESS);
-            result.setMessage("添加成功！");
+            return ResponseResult.success();
         } catch (ProductTypeExistException e) {
-            // e.printStackTrace();
-            result.setStatus(ResponseStatusConstant.RESPONSE_STATUS_FAIL);
-            result.setMessage(e.getMessage());
+            return ResponseResult.fail(e.getMessage());
         }
-        return result;
     }
+
 
     /**
      * 通过id查询产品类型详细信息
@@ -75,19 +71,40 @@ public class productTypeController {
      * @param id 编码
      * @return 类型的json包
      */
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     @ResponseBody
     public ResponseResult findById(Integer id) {
-        ResponseResult relsult = new ResponseResult();
+
         ProductType productType = productTypeService.findById(id);
         if (null != productType) {
-
-            relsult.success( productType);
+            return ResponseResult.success(productType);
         } else {
-
-            relsult.fail( "该产品类型不存在了！");
-
+            return ResponseResult.fail("该产品类型不存在了！");
         }
-        return relsult;
     }
+
+    @RequestMapping("/modifyName")
+    @ResponseBody
+    public ResponseResult modifyName(int id, String name) {
+
+        try {
+            productTypeService.modifyName(id, name);
+            return ResponseResult.success("修改成功！");
+        } catch (ProductTypeExistException e) {
+            return ResponseResult.fail(e.getMessage());
+        }
+    }
+    @RequestMapping("/deleteById")
+    @ResponseBody
+    public ResponseResult deleteById(int id) {
+
+        try {
+            productTypeService.deleteById(id);
+            return ResponseResult.success("删除成功！");
+        } catch (Exception e) {
+            return ResponseResult.fail(e.getMessage());
+        }
+    }
+
+
 }

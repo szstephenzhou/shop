@@ -41,7 +41,7 @@
     </insert>
 
     <insert id="deleteById">
-        delete  t_product_type  where id =#{id} ;
+        delete FROM t_product_type  where id =#{id} ;
     </insert>
 </mapper>
 
