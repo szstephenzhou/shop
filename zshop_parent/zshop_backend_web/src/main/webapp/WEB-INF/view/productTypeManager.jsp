@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>backend</title>
+    <title>产品类型管理</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
@@ -16,7 +16,9 @@
     <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
     <%--分页插件--%>
     <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
-
+    <%--layer弹框js--%>
+    <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/zshop.css"/>
     <script type="application/javascript">
         $(function () {
             $("#pagination").bootstrapPaginator({
@@ -28,24 +30,57 @@
                 totalPages: ${pageInfo.pageSize},
 
 
-            // //当单击操作按钮的时候, 执行该函数, 调用ajax渲染页面
-            pageUrl: function (type,page,current) {
+                // //当单击操作按钮的时候, 执行该函数, 调用ajax渲染页面
+                pageUrl: function (type, page, current) {
 
-                    return "${pageContext.request.contextPath}/backend/productType/findAll?pageNum="+page;
+                    return "${pageContext.request.contextPath}/backend/productType/findAll?pageNum=" + page;
 
-            },
-                itemText:function (type,page,current) {
+                },
+                itemTexts: function (type, page, current) {
                     switch (type) {
-                        case "first":return "首页";
-                        case "prev":return "上一页";
-                        case "next":return "下一页";
-                        case "last":return "末页";
-                        case "page":return "page";
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
                     }
                 }
-        });
+            });
         });
 
+        // 添加商品类型
+        function addProductType() {
+            $.post('${pageContext.request.contextPath}/backend/productType/add',
+                {
+                    'name': $('#productTypeName').val()
+                }, function (relust) {
+                    if (relust.status) {
+                        layer.msg(relust.message, {time: 3000, skin: 'sucessMsg'});
+                    } else {
+                        layer.msg(relust.message, {time: 5000, skin: 'errorMsg'})
+                    }
+                }
+            );
+        }
+
+        //显示商品类型
+        function showProductType(id) {
+            $.post(
+                '${pageContext.request.contextPath}/backend/productType/findById',
+                {'id': id},
+                function (relust) {
+                    if (relust.status == 1) {
+                        $("#proTypeNum").val(relust.data.id);
+                        $("#proTypeName").val(relust.data.name);
+                    }
+                }
+            );
+        }
     </script>
 </head>
 
@@ -69,7 +104,6 @@
                 </tr>
                 </thead>
                 <tbody id="tb">
-
                 <c:forEach items="${pageInfo.list}" var="productTpye">
                     <tr>
                         <td>${productTpye.id}</td>
@@ -79,9 +113,18 @@
                             <c:if test="${productTpye.status==0}">禁用</c:if>
                         </td>
                         <td class="text-center">
-                            <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
-                            <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
-                            <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                            <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改"
+                                   onclick="showProductType(${productTpye.id})">
+                            <input type="button" class="btn btn-warning btn-sm doProTypeDelete"
+                                   data-value="${productTpye.id}" value="删除">
+
+                            <c:if test="${productTpye.status==1}">
+                                <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                            </c:if>
+                            <c:if test="${productTpye.status==0}">
+                                <input type="button" class="btn btn-green btn-sm doProTypeDisable" value="启用">
+                            </c:if>
+
                         </td>
                     </tr>
                 </c:forEach>
@@ -90,7 +133,7 @@
                 </tbody>
             </table>
             <%--分页插件的实现 bootstrop-pagination--%>
-            <ul id="pagination"></ul>
+            <ul id="pagination" style="float:right"></ul>
         </div>
     </div>
 </div>
@@ -116,7 +159,7 @@
                 <br>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary addProductType">添加</button>
+                <button class="btn btn-primary addProductType" onclick="addProductType()">添加</button>
                 <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
             </div>
         </div>

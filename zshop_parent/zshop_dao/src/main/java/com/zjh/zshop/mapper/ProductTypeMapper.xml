@@ -18,5 +18,30 @@
         *
         from t_product_type
     </select>
+
+    <select id="selectById" resultType="ProductType">
+        select * from t_product_type where id=#{id};
+    </select>
+
+    <select id="selectByName" resultType="ProductType">
+        select * from t_product_type where name=#{name};
+    </select>
+
+    <insert id="Insert">
+       insert into t_product_type(name,status)value (#{name},#{status}) ;
+    </insert>
+
+    <insert id="updateNamebyId">
+        update  t_product_type set name=#{name} where  id =#{id} ;
+    </insert>
+
+
+    <insert id="updateStatus">
+        update  t_product_type set status=#{status} where  id =#{id} ;
+    </insert>
+
+    <insert id="deleteById">
+        delete  t_product_type  where id =#{id} ;
+    </insert>
 </mapper>
 
