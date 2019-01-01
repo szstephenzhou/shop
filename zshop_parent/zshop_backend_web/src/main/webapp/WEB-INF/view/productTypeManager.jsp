@@ -267,7 +267,7 @@
                 <br>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-warning updateProType" onclick="deleteProductType()">确定</button>
+                <button class="btn btn-warning updateProType" onclick="deleteProductType()" data-dismiss="modal">确定</button>
                 <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
