@@ -99,7 +99,7 @@
                             location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' +${pageInfo.pageNum};
                         });
                     } else {
-                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'})
+                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'});
                     }
                 }
             });

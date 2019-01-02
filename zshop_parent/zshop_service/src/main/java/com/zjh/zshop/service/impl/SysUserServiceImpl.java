@@ -1,6 +1,7 @@
 package com.zjh.zshop.service.impl;
 
 import com.zjh.zshop.dao.SysUserDao;
+import com.zjh.zshop.pojo.Role;
 import com.zjh.zshop.pojo.SysUser;
 import com.zjh.zshop.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,20 @@ public class SysUserServiceImpl implements SysUserService {
     public List<SysUser> selectAll() {
         return sysUserDao.selectAll();
     }
+
+    @Override
+    public SysUser findById(Integer id) {
+            return sysUserDao.findById(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Role getAllRoles() {
+        return sysUserDao.getAllRoles();
+    }
+
+
+
 
 
 }

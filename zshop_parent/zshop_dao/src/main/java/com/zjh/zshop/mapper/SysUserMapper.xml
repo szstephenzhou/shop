@@ -9,4 +9,13 @@
 <select id="selectAll" resultType="SysUser">
     select  * from t_sysuser
 </select>
+    
+    <select id="findById" resultType="SysUser">
+        SELECT * FROM t_sysuser where  id=#{id}
+    </select>
+
+    <select id="getAllRoles" resultType="Role">
+        select * from t_role;
+    </select>
+
 </mapper>

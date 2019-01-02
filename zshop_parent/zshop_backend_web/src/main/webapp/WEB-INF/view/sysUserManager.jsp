@@ -28,26 +28,55 @@
             //设置版本号
             bootstrapMajorVersion: 3,
             // 显示第几页
-            currentPage:"${pageInfo.pageNum}" ,
+            currentPage: "${pageInfo.pageNum}",
             // 总页数
             totalPages: "${pageInfo.pageNum}",
 
-            pageUrl:function (type,page,current) {
+            pageUrl: function (type, page, current) {
 
-                return "${pageContext.request.contextPath}/backend/sysuser/selectAll?pageNum="+page;
+                return "${pageContext.request.contextPath}/backend/sysuser/selectAll?pageNum=" + page;
 
             },
-            itemTexts:function (type,page,current) {
+            itemTexts: function (type, page, current) {
                 switch (type) {
-                    case "first":return "首页";
-                    case "prev":return "上一页";
-                    case "next":return "下一页";
-                    case "last":return "末页";
-                    case "page":return page;
+                    case "first":
+                        return "首页";
+                    case "prev":
+                        return "上一页";
+                    case "next":
+                        return "下一页";
+                    case "last":
+                        return "末页";
+                    case "page":
+                        return page;
                 }
             }
         })
     });
+
+
+    function showUserInfo(id) {
+        $.ajax(
+            {
+                type: 'post',
+                url: '${pageContext.request.contextPath}/backend/sysuser/findById',
+                data: {'id': id},
+                Datatype: 'json',
+                success: function (result) {
+                    if (result.status == 1) {
+                        $("#id").val(result.data.id);
+                        $("#name").val(result.data.name);
+                        $("#login_name").val(result.data.login_name);
+                        $("#userphone").val(result.data.phone);
+                        $("#email").val(result.data.email);
+
+                    } else {
+                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'});
+                    }
+                }
+            }
+        );
+    }
 
 </script>
 <body>
@@ -75,8 +104,12 @@
                     <label for="role">角色</label>
                     <select class="form-control" name="role" id="role">
                         <option value="-1">全部</option>
-                        <option value="1">商品专员</option>
-                        <option value="0">营销经理</option>
+
+                        <c:forEach items="Roles" var="role">
+                            <option id="${role.id}">${role.name}</option>
+                        </c:forEach>
+
+
                     </select>
                 </div>
                 <div class="form-group">
@@ -123,7 +156,8 @@
                         <td>${sysUser.create_date}</td>
                         <td>${sysUser.role_id}</td>
                         <td class="text-center">
-                            <input type="button" class="btn btn-warning btn-sm doMangerModify" value="修改">
+                            <input type="button" class="btn btn-warning btn-sm doMangerModify"
+                                   onclick="showUserInfo(${sysUser.id})" value="修改">
                             <input type="button" class="btn btn-danger btn-sm doMangerDisable" value="禁用">
                         </td>
                     </tr>
@@ -189,8 +223,9 @@
                     <div class=" col-sm-4">
                         <select class="form-control">
                             <option>请选择</option>
-                            <option>超级系统用户</option>
-                            <option>商品系统用户</option>
+                            <c:forEach items="Roles" var="role">
+                                <option id="${role.id}">${role.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -220,35 +255,35 @@
                 <div class="row text-right">
                     <label for="MargerUsername" class="col-sm-4 control-label">用户编号：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="MargerStaffId" readonly="readonly">
+                        <input type="text" class="form-control" id="id" readonly="readonly">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="MargerUsername" class="col-sm-4 control-label">用户姓名：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="MargerStaffname">
+                        <input type="text" class="form-control" id="name">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="MargerLoginName" class="col-sm-4 control-label">登录帐号：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="MargerLoginName" readonly="readonly">
+                        <input type="text" class="form-control" id="login_name" readonly="readonly">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="MargerPhone" class="col-sm-4 control-label">联系电话：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="MargerPhone">
+                        <input type="text" class="form-control" id="userphone">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="MargerAdrees" class="col-sm-4 control-label">联系邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control" id="MargerAdrees">
+                        <input type="email" class="form-control" id="email">
                     </div>
                 </div>
                 <br>
@@ -257,8 +292,10 @@
                     <div class=" col-sm-4">
                         <select class="form-control" id="MargerRole">
                             <option>请选择</option>
-                            <option>超级系统用户</option>
-                            <option>商品系统用户</option>
+                            <c:forEach items="Roles" var="role">
+                                <option id="${role.id}">${role.name}</option>
+                            </c:forEach>
+
                         </select>
                     </div>
                 </div>
