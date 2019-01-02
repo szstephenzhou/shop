@@ -23,4 +23,8 @@ public interface ProductTypeService {
     public void modifyName(Integer id, String name) throws ProductTypeExistException;
 
     public void deleteById(Integer id)  ;
+
+    public void modifyStatus(Integer id, Integer status);
+
+    public List<ProductType> getEnableProductTypes();
 }

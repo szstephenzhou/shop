@@ -106,5 +106,17 @@ public class productTypeController {
         }
     }
 
+    @RequestMapping("/modifyStatus")
+    @ResponseBody
+    public ResponseResult modifyStatus(int id,int status) {
+
+        try {
+            productTypeService.modifyStatus(id,status);
+            return ResponseResult.success("修改成功！");
+        } catch (Exception e) {
+            return ResponseResult.fail(e.getMessage());
+        }
+    }
+
 
 }

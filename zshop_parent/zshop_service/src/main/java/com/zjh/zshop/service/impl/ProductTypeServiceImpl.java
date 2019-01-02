@@ -44,26 +44,38 @@ public class ProductTypeServiceImpl implements ProductTypeService {
             productTypeDao.Insert(name, ProductTypeConstant.ProductType_ENABLE);
         }
     }
+
     @Override
-    public ProductType findById(Integer id){
-        return  productTypeDao.selectById(id);
+    public ProductType findById(Integer id) {
+        return productTypeDao.selectById(id);
     }
 
     @Override
-    public void modifyName(Integer id,String  name) throws  ProductTypeExistException {
+    public void modifyName(Integer id, String name) throws ProductTypeExistException {
         ProductType productType = productTypeDao.selectByName(name);
         if (null != productType) {
-             throw new ProductTypeExistException("商品类型已经存在,请换个名字试下");
+            throw new ProductTypeExistException("商品类型已经存在,请换个名字试下");
         } else {
-            productTypeDao.updateNamebyId(id,   name);
+            productTypeDao.updateNamebyId(id, name);
         }
     }
+
     @Override
-    public void deleteById(Integer id)    {
-         productTypeDao.deleteById(id);
+    public void deleteById(Integer id) {
+        productTypeDao.deleteById(id);
 
     }
 
+    @Override
+    public void modifyStatus(Integer id, Integer status) {
+        productTypeDao.updateStatus(id, status);
+
+    }
+
+    @Override
+    public List<ProductType> getEnableProductTypes() {
+        return productTypeDao.selectByStatus(ProductTypeConstant.ProductType_ENABLE);
+    }
 
 
 }

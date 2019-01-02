@@ -65,4 +65,7 @@ public interface ProductTypeDao {
      * @param id
      */
     public void deleteById(int id);
+
+
+    public   List<ProductType> selectByStatus(@Param("status") int status);
 }

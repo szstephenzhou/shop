@@ -19,6 +19,12 @@
         from t_product_type
     </select>
 
+    <select id="selectByStatus" resultType="ProductType">
+        select
+       *
+        from t_product_type where status=${status};
+    </select>
+
     <select id="selectById" resultType="ProductType">
         select * from t_product_type where id=#{id};
     </select>

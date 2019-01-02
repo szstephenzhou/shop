@@ -20,6 +20,7 @@
     <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/zshop.css"/>
     <script type="application/javascript">
+        // 加载分页插件
         $(function () {
             $("#pagination").bootstrapPaginator({
                 //设置版本号
@@ -60,9 +61,9 @@
                     'name': $('#productTypeName').val()
                 }, function (relust) {
                     if (relust.status) {
-                        layer.msg(relust.message, {time: 3000, skin: 'sucessMsg'},function () {
+                        layer.msg(relust.message, {time: 3000, skin: 'sucessMsg'}, function () {
 
-                            location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};
+                            location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' +${pageInfo.pageNum};
                         });
                     } else {
                         layer.msg(relust.message, {time: 5000, skin: 'errorMsg'})
@@ -71,7 +72,7 @@
             );
         }
 
-        //显示商品类型
+        //显示商品类型详情
         function showProductType(id) {
             $.post(
                 '${pageContext.request.contextPath}/backend/productType/findById',
@@ -84,17 +85,18 @@
                 }
             );
         }
+
         // 修改商品名称
         function modifyName() {
             $.ajax({
-                type:'post',
-                url:'${pageContext.request.contextPath}/backend/productType/modifyName',
-                data:{'id':$("#proTypeNum").val(),'name':$("#proTypeName").val()},
-                dataType:'json',
-                success:function (result) {
+                type: 'post',
+                url: '${pageContext.request.contextPath}/backend/productType/modifyName',
+                data: {'id': $("#proTypeNum").val(), 'name': $("#proTypeName").val()},
+                dataType: 'json',
+                success: function (result) {
                     if (result.status) {
-                        layer.msg(result.message, {time: 2000, skin: 'sucessMsg'},function () {
-                            location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};
+                        layer.msg(result.message, {time: 2000, skin: 'sucessMsg'}, function () {
+                            location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' +${pageInfo.pageNum};
                         });
                     } else {
                         layer.msg(result.message, {time: 5000, skin: 'errorMsg'})
@@ -102,30 +104,67 @@
                 }
             });
         }
-        
+
         // 显示确认删除的模态框
         function showDeleteModel(id) {
             $("#deleteProductTypeId").val(id);
             $("#deleteProductType").modal("show");
         }
-        
+
+        // 删除商品
         function deleteProductType() {
-         $.ajax({
-             type:'get',
-             url:'${pageContext.request.contextPath}/backend/productType/deleteById',
-             data:{'id':$("#deleteProductTypeId").val()},
-             dataType:'json',
-             success:function (result) {
-                 if(result.status){
-                     layer.msg(result.message,{time:2000,shin:'sucessMsg'},function () {
-                         location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};
-                     });
-                 }else {
-                     layer.msg(result.message, {time: 5000, skin: 'errorMsg'})
-                 }
-             }
-         });
+            $.ajax({
+                type: 'get',
+                url: '${pageContext.request.contextPath}/backend/productType/deleteById',
+                data: {'id': $("#deleteProductTypeId").val()},
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status) {
+                        layer.msg(result.message, {time: 2000, shin: 'sucessMsg'}, function () {
+                            location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' +${pageInfo.pageNum};
+                        });
+                    } else {
+                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'})
+                    }
+                }
+            });
         }
+
+        // 修改状态
+        function modifyStatus(id, status, btn) {
+            if (status == 1) {
+                status = 0;
+            } else if (status == 0) {
+                status = 1;
+            }
+            $.ajax({
+                type: 'get',
+                url: '${pageContext.request.contextPath}/backend/productType/modifyStatus',
+                data: {'id': id, 'status': status},
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status) {
+                        layer.msg(result.message, {time: 2000, shin: 'sucessMsg'}, function () {
+                            <%--location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};--%>
+                            // 局部刷新，获取该按钮的td单元格的前一个td
+                            let $tb = $(btn).parent().prev();
+                            if ($tb.text().trim()=='启用') {
+                                $tb.text('禁用');
+                                $(btn).val("启用").removeClass("btn-danger").addClass("btn-success");
+                            } else if ($tb.text().trim()=='禁用')  {
+                                $tb.text('启用');
+                                $(btn).val("禁用").removeClass("btn-success").addClass("btn-danger");
+                            }
+
+                        });
+                    } else {
+                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'})
+                    }
+                }
+            });
+        }
+
+
     </script>
 </head>
 
@@ -160,13 +199,16 @@
                         <td class="text-center">
                             <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改"
                                    onclick="showProductType(${productTpye.id})">
-                            <input type="button" class="btn btn-warning btn-sm doProTypeDelete" onclick="showDeleteModel(${productTpye.id})" value="删除">
+                            <input type="button" class="btn btn-warning btn-sm doProTypeDelete"
+                                   onclick="showDeleteModel(${productTpye.id})" value="删除">
 
                             <c:if test="${productTpye.status==1}">
-                                <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                                <input type="button" class="btn btn-danger btn-sm doProTypeDisable"
+                                       onclick="modifyStatus(${productTpye.id},${productTpye.status},this)" value="禁用">
                             </c:if>
                             <c:if test="${productTpye.status==0}">
-                                <input type="button" class="btn btn-green btn-sm doProTypeDisable" value="启用">
+                                <input type="button" class="btn btn-success btn-sm doProTypeDisable"
+                                       onclick="modifyStatus(${productTpye.id},${productTpye.status},this)" value="启用">
                             </c:if>
 
                         </td>
@@ -203,7 +245,7 @@
                 <br>
             </div>
             <div class="modal-footer">
-                <input  id="deleteProductTypeId" type="hidden"/>
+                <input id="deleteProductTypeId" type="hidden"/>
 
                 <button class="btn btn-primary addProductType" onclick="addProductType()">添加</button>
                 <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
@@ -262,12 +304,13 @@
             </div>
             <div class="modal-body text-center">
                 <div class="row text-center">
-                     <h4>确认要删除该商品类型吗?</h4>
+                    <h4>确认要删除该商品类型吗?</h4>
                 </div>
                 <br>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-warning updateProType" onclick="deleteProductType()" data-dismiss="modal">确定</button>
+                <button class="btn btn-warning updateProType" onclick="deleteProductType()" data-dismiss="modal">确定
+                </button>
                 <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
