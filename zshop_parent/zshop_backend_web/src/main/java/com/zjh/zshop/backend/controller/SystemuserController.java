@@ -3,6 +3,7 @@ package com.zjh.zshop.backend.controller;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zjh.zshop.backend.vo.SysUserVo;
 import com.zjh.zshop.constant.PaginatonConstant;
 import com.zjh.zshop.pojo.Role;
 import com.zjh.zshop.pojo.SysUser;
@@ -32,6 +33,14 @@ public class SystemuserController {
         return "main";
     }
 
+    /**
+     * 打开默认页面的展示信息
+     *
+     * @param pageNum  当前页码
+     * @param pageSize 页数
+     * @param model    页面model 存储页面上的调用
+     * @return 返回跳转到页面
+     */
     @RequestMapping("/selectAll")
     public String selectAll(Integer pageNum, Integer pageSize, Model model) {
         if (ObjectUtils.isEmpty(pageNum)) {
@@ -50,12 +59,23 @@ public class SystemuserController {
         return "sysUserManager";
     }
 
-    @ModelAttribute(value = "Roles")
-    public Role getUserRoles() {
-      return sysUserService.getAllRoles();
+    /**
+     * 页面默认的用户角色信息获取
+     *
+     * @return
+     */
+    @ModelAttribute("Roles")
+    public List<Role> getUserRoles() {
+        return sysUserService.getAllRoles();
         //   return  new Role();
     }
 
+    /**
+     * 修改用户信息的时候 查看用户详情
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/findById")
     @ResponseBody
     public ResponseResult findById(Integer id) {
@@ -65,7 +85,20 @@ public class SystemuserController {
         } else {
             return ResponseResult.fail("id错误，请联系管理员");
         }
+    }
 
+
+    /**
+     * 修改用户信息
+     *
+     * @param sysUserVo 页面提交的model
+     * @return
+     */
+    @RequestMapping("/edit")
+    public String edit(SysUserVo sysUserVo) {
+        System.out.println(sysUserVo.toString());
+
+        return "forward:selectAll";
     }
 
 

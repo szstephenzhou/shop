@@ -10,5 +10,5 @@ public interface SysUserService {
 
     public  SysUser findById(Integer id);
 
-    public Role getAllRoles();
+    public List<Role> getAllRoles();
 }

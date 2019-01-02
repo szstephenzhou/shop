@@ -37,7 +37,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public Role getAllRoles() {
+    public List<Role> getAllRoles() {
         return sysUserDao.getAllRoles();
     }
 

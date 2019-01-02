@@ -11,5 +11,5 @@ public interface SysUserDao {
 
    public SysUser findById(Integer id);
 
-    public  Role getAllRoles();
+    public  List<Role> getAllRoles();
 }
