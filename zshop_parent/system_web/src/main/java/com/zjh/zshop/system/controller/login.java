@@ -1,4 +1,4 @@
-package com.zjh.zhop.system.controller;
+package com.zjh.zshop.system.controller;
 
 import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.stereotype.Controller;
