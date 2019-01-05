@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
-public class login {
+@RequestMapping("/Login")
+public class Login {
 
     @RequestMapping("Index")
     public  String Index()

@@ -125,12 +125,17 @@
                             <div class="form-group">
                                 <input type="password" id="Pwd" class="form-control" placeholder="密码" required>
                             </div>
+
                             <div>
-                                <button type="submit" id="submit"
-                                        data-loading-text="<div style='text-align:center; margin:0 auto;'><div style='display:inline-block;width:45px;'>登录中</div>
-                                        <div class='sk-spinner sk-spinner-three-bounce' style='display:inline-block;width:45px;'>
-                                        <div class='sk-bounce1'></div><div class='sk-bounce2'></div><div class='sk-bounce3'></div></div></div>"
-                                        class="btn btn-w-m btn-primary pull-right">登&nbsp;&nbsp;录
+                                <button type="submit" id="submit" data-loading-text="<div style='text-align:center; margin:0 auto;'>
+                                <div style='display:inline-block;width:45px;'>登录中</div>
+                                <div class='sk-spinner sk-spinner-three-bounce' style='display:inline-block;width:45px;'>
+                                <div class='sk-bounce1'>
+                                </div><div class='sk-bounce2'>
+                                </div><div class='sk-bounce3'>
+                                </div>
+                                </div>
+                                </div>" class="btn btn-w-m btn-primary pull-center">登&nbsp;&nbsp;录
                                 </button>
                                 <%--<label class="pull-left" style="margin-top: 7px; font-weight: normal;">--%>
                                 <%--<input id="NoWiring" type="checkbox" class="i-checks" @ViewData["checked"].ToString()/>--%>
@@ -192,30 +197,32 @@
             return false;
         }
         $('#submit').button('loading');
-        $.post("/Login/Login", {Account: account, Pwd: $.md5(pwd)},
-            function (data) {
-                if (data.Success) {
-                    if (channel) {
-                        localData.set('logintype', 'platform');
-                        if ($("#NoWiring").is(":checked")) {
-                            document.location.href = "../DevicePark";
-                            return;
-                        }
-                        document.location.href = "../Index";
-                    } else {
-                        localData.set('logintype', 'business');
-                        document.location.href = "../BizIndex";
-                    }
-                    localData.set("Account", account);
-                } else {
-                    setTimeout(function () {
-                        $('#submit').button('reset');
-                    }, 500);
-                    layer.tips("提示：" + data.Message, '#submit', {tips: [3]});
-                }
-            }, "json");
-        return false; //防止submit按钮自动刷新一次页面
-    });
+        window.location.href='${pageContext.request.contextPath}/Login/Index';
+
+    //     $.post("/Login/Index", {Account: account, Pwd: $.md5(pwd)},
+    //         function (data) {
+    //             if (data.Success) {
+    //                 if (channel) {
+    //                     localData.set('logintype', 'platform');
+    //                     if ($("#NoWiring").is(":checked")) {
+    //                         document.location.href = "../DevicePark";
+    //                         return;
+    //                     }
+    //                     document.location.href = "../Index";
+    //                 } else {
+    //                     localData.set('logintype', 'business');
+    //                     document.location.href = "../BizIndex";
+    //                 }
+    //                 localData.set("Account", account);
+    //             } else {
+    //                 setTimeout(function () {
+    //                     $('#submit').button('reset');
+    //                 }, 500);
+    //                 layer.tips("提示：" + data.Message, '#submit', {tips: [3]});
+    //             }
+    //         }, "json");
+    //     return false; //防止submit按钮自动刷新一次页面
+   });
 </script>
 </body>
 </html>
