@@ -16,6 +16,7 @@
         <module>zshop_service</module>
         <module>zshop_front_web</module>
         <module>zshop_backend_web</module>
+        <module>system_web</module>
 
     </modules>
 <name>zhshop_parent</name>

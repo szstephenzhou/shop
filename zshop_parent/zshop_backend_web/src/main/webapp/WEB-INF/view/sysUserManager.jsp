@@ -54,7 +54,7 @@
         })
     });
 
-   // 点击修改展示所点击的用户详情
+    // 点击修改展示所点击的用户详情
     function showUserInfo(id) {
         $.ajax(
             {
@@ -78,11 +78,36 @@
         );
     }
 
+    //点击修改提交事件
+    $(".update").onclick(function () {
+        $.ajax(
+            {
+                type: 'post',
+                url: '${pageContext.request.contextPath}/backend/sysuser/edit',
+                data: {
+                    'id': $("#id").val(),
+                    'name': $("#name").val(),
+                    'login_name': $("#login_name").val(),
+                    'userphone': $("#userphone").val(),
+                    'email': $("#email").val(),
+                    'margerRole': $("#margerRole").val(),
+                },
+                datatype: 'json',
+                success: function (result) {
+                    if (result.status == 1) {
+                        layer.msg(result.message, {time: 5000, skin: 'successMsg'});
+                    } else {
+                        layer.msg(result.message, {time: 5000, skin: 'errorMsg'});
+                    }
+                }
+            }
+        );
+    });
 
 </script>
 <body>
 <!-- 系统用户管理 -->
-<div class="panel panel-default" id="adminSet" >
+<div class="panel panel-default" id="adminSet">
     <div class="panel-heading">
         <h3 class="panel-title">系统用户管理</h3>
     </div>
@@ -246,8 +271,8 @@
     <!-- 窗口声明 -->
     <div class="modal-dialog">
         <!-- 内容声明 -->
-        <form action="${pageContext.request.contextPath}/backend/sysuser/edit"  class="form-horizontal" method="post"  enctype="multipart/form-data">
-        <div class="modal-content" >
+        <%--<form action="${pageContext.request.contextPath}/backend/sysuser/edit"  class="form-horizontal" method="post"  enctype="multipart/form-data">--%>
+        <div class="modal-content">
             <!-- 头部、主体、脚注 -->
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">&times;</button>
@@ -257,14 +282,14 @@
                 <div class="row text-right">
                     <label for="id" class="col-sm-4 control-label">用户编号：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="id" readonly="readonly">
+                        <input type="text" class="form-control" id="id" name="id" readonly="readonly">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="name" class="col-sm-4 control-label">用户姓名：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                 </div>
                 <br>
@@ -278,21 +303,21 @@
                 <div class="row text-right">
                     <label for="userphone" class="col-sm-4 control-label">联系电话：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="userphone">
+                        <input type="text" class="form-control" id="userphone" name="userphone">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="email" class="col-sm-4 control-label">联系邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control" id="email">
+                        <input type="email" class="form-control" id="email" name="email">
                     </div>
                 </div>
                 <br>
                 <div class="row text-right">
                     <label for="margerRole" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
                     <div class=" col-sm-4">
-                        <select class="form-control" id="margerRole">
+                        <select class="form-control" id="margerRole" name="margerRole">
                             <option>请选择</option>
                             <c:forEach items="${Roles}" var="role">
                                 <option value="${role.id}">${role.role_name}</option>
@@ -304,11 +329,11 @@
                 <br>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary doMargerModal" type="submit">修改</button>
+                <button class="btn btn-primary doMargerModal" id="update">修改</button>
                 <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
-        </form>
+        <%--</form>--%>
     </div>
 </div>
 <!-- 修改系统用户 end -->

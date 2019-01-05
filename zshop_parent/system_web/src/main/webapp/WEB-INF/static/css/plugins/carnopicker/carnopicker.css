@@ -1,0 +1,32 @@
+﻿
+.laycarno_box { 
+    z-index: 99999999;
+    background-color: #FFFFFF;
+    padding: 10px; 
+    border: 1px solid #ccc;
+    border-top: none;
+    display: block;
+    width: 240px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.laycarno_province, .laycarno_char { 
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    text-align: center;
+}
+    .laycarno_province li, .laycarno_char li {
+        color: #00625A;
+        float: left;
+        width: 36px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer; 
+    }
+    .laycarno_province li:hover, .laycarno_char li:hover {
+        background-color: #00C1B3;
+        color: #fff;
+                
+    }

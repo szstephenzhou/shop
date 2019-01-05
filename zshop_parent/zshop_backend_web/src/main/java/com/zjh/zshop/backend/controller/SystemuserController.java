@@ -67,7 +67,7 @@ public class SystemuserController {
     @ModelAttribute("Roles")
     public List<Role> getUserRoles() {
         return sysUserService.getAllRoles();
-        //   return  new Role();
+
     }
 
     /**
